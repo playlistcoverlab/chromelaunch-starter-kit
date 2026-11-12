@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChromeLaunch — Starter Kit para Crear y Monetizar Extensiones de Chrome en 1 Hora</title>
+  <meta name="description" content="Boilerplate de producción con Manifest V3, React 19, Tailwind CSS v4, Chrome Side Panel, validación con Zod y pagos con Stripe pre-integrados." />
+  <meta property="og:title" content="ChromeLaunch — Chrome Extension Starter Kit (Manifest V3 + React 19 + Stripe)" />
+  <meta property="og:description" content="Ahorra +40 horas de configuración. Lanza y monetiza tu extensión de Chrome hoy mismo." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="../public/icons/icon32.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #09090b;
+      color: #fafafa;
+    }
+    .grid-bg {
+      background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-indigo-500/30 overflow-x-hidden grid-bg">
+
+  <!-- =========================================================================
+       CONFIGURACIÓN RÁPIDA DE ENLACES DE PAGO (GUMROAD / LEMONSQUEEZY)
+       Reemplaza estos enlaces cuando publiques tu producto en Gumroad/LemonSqueezy
+       ========================================================================= -->
+  <script>
+    window.CHECKOUT_CONFIG = {
+      soloUrl: "#pricing",   // Ej: "https://tucuenta.gumroad.com/l/chromelaunch?wanted=true"
+      agencyUrl: "#pricing"  // Ej: "https://tucuenta.gumroad.com/l/chromelaunch-agency?wanted=true"
+    };
+  </script>
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+          <svg class="w-4 h-4 text-white fill-white" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span class="font-bold text-base tracking-tight">ChromeLaunch</span>
+        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">v1.1</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+        <a href="#demo" class="hover:text-white transition-colors">Demo Interactiva</a>
+        <a href="#features" class="hover:text-white transition-colors">Arquitectura</a>
+        <a href="#comparison" class="hover:text-white transition-colors">Ahorro de Tiempo</a>
+        <a href="#pricing" class="hover:text-white transition-colors">Precios</a>
+      </nav>
+      <a href="#pricing" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 transition-all">
+        Obtener Starter Kit →
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero + Live Interactive Extension Simulator -->
+  <section id="demo" class="max-w-6xl mx-auto px-6 pt-16 pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Column -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>100% Manifest V3 • React 19 • Tailwind CSS v4 • Stripe</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.12]">
+          Lanza y monetiza tu extensión de Chrome en <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">1 hora</span>, no en 3 semanas.
+        </h1>
+
+        <p class="text-base text-zinc-400 leading-relaxed max-w-xl">
+          Olvídate de pelear con Service Workers que se apagan solos, errores de CSP en pasarelas de pago o configuraciones rotas de Rollup. <strong>ChromeLaunch</strong> te entrega la arquitectura completa lista para subir a la Chrome Web Store.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="#pricing" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-xl shadow-indigo-600/25 transition-all">
+            Descargar ChromeLaunch ($49) →
+          </a>
+          <div class="text-xs text-zinc-400 space-y-0.5">
+            <div class="font-semibold text-emerald-400">✓ Pago único • Proyectos ilimitados</div>
+            <div>Incluye código fuente + Licencia Comercial</div>
+          </div>
+        </div>
+
+        <!-- Stack Pills -->
+        <div class="pt-4 flex flex-wrap gap-2">
+          <span class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-medium text-zinc-300">⚡ Bun &lt;1s Build</span>
+          <span class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-medium text-zinc-300">🛡️ Zod Validated</span>
+          <span class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-medium text-zinc-300">📱 Side Panel Nativo</span>
+          <span class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-medium text-zinc-300">💳 ExtensionPay / Stripe</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Live Extension Preview -->
+      <div class="lg:col-span-5">
+        <div class="rounded-3xl bg-zinc-900/90 border-2 border-zinc-800 shadow-2xl overflow-hidden max-w-[390px] mx-auto">
+          <!-- Simulator Top Bar -->
+          <div class="px-4 py-2 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between text-[11px] text-zinc-400">
+            <span class="flex items-center gap-1.5 font-medium">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              Simulador Interactivo en Vivo
+            </span>
+            <button onclick="toggleDemoPro()" id="demoPlanBtn" class="px-2 py-0.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-indigo-300 font-semibold cursor-pointer">
+              Cambiar a PRO
+            </button>
+          </div>
+
+          <!-- Simulated Extension Header -->
+          <div class="px-4 py-3 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/60">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">⚡</div>
+              <div>
+                <div class="text-xs font-bold flex items-center gap-1.5">
+                  <span>ChromeLaunch</span>
+                  <span id="demoBadge" class="text-[9px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700">FREE</span>
+                </div>
+                <div class="text-[10px] text-zinc-400">Popup • SidePanel • Options</div>
+              </div>
+            </div>
+            <button onclick="showDemoTab('paywall')" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 text-[11px] font-bold text-white cursor-pointer">
+              Upgrade
+            </button>
+          </div>
+
+          <!-- Simulated Tabs -->
+          <div class="flex gap-1 px-4 pt-2.5 pb-1.5 border-b border-zinc-800 bg-zinc-950/40 text-xs">
+            <button onclick="showDemoTab('inspector')" id="tabBtnInspector" class="px-3 py-1 rounded-lg bg-zinc-800 text-white font-semibold cursor-pointer">Popup</button>
+            <button onclick="showDemoTab('sidepanel')" id="tabBtnSidepanel" class="px-3 py-1 rounded-lg text-zinc-400 hover:text-white font-semibold cursor-pointer">Side Panel AI</button>
+            <button onclick="showDemoTab('paywall')" id="tabBtnPaywall" class="px-3 py-1 rounded-lg text-zinc-400 hover:text-white font-semibold cursor-pointer">Paywall Stripe</button>
+          </div>
+
+          <!-- Tab 1: Inspector -->
+          <div id="demoTabInspector" class="p-4 space-y-3 min-h-[290px]">
+            <div class="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-bold">Inspector de Pestaña Activa</span>
+                <span class="text-[10px] text-emerald-400">● En vivo</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-[11px] space-y-1">
+                <div class="font-semibold text-zinc-200">ChromeLaunch — Live Demo</div>
+                <div class="text-zinc-500">1,480 palabras detectadas en DOM</div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-2.5">
+              <div class="flex justify-between items-center">
+                <div>
+                  <div class="text-xs font-bold">Exportador Inteligente CSV</div>
+                  <div class="text-[10px] text-zinc-400">Protegido por hook useExtensionPay()</div>
+                </div>
+                <span class="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">PRO</span>
+              </div>
+              <button onclick="triggerDemoExport()" class="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white cursor-pointer transition-colors">
+                Probar Exportación CSV
+              </button>
+            </div>
+            <p id="demoToast" class="text-[11px] text-center text-emerald-400 font-medium h-4"></p>
+          </div>
+
+          <!-- Tab 2: Sidepanel AI -->
+          <div id="demoTabSidepanel" class="p-4 space-y-3 min-h-[290px] hidden">
+            <div class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 text-xs space-y-1">
+              <div class="text-[10px] text-indigo-400 font-bold">ChromeLaunch Copilot</div>
+              <p class="text-zinc-300 text-[11px] leading-relaxed">
+                El Side Panel nativo de Chrome 114+ permanece abierto mientras el usuario navega entre pestañas. Ideal para asistentes IA y scrapers éticos.
+              </p>
+            </div>
+            <div class="p-3 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-xs">
+              <div class="text-[10px] text-indigo-300 font-semibold mb-1">✓ Validación con Zod integrada</div>
+              <p class="text-[11px] text-zinc-300">Todas las entradas, notas y claves de API están blindadas con esquemas de Zod.</p>
+            </div>
+          </div>
+
+          <!-- Tab 3: Paywall -->
+          <div id="demoTabPaywall" class="p-4 space-y-3 min-h-[290px] hidden">
+            <div class="p-4 rounded-2xl bg-gradient-to-b from-indigo-950/60 to-zinc-950 border border-indigo-500/30 space-y-3">
+              <div class="flex justify-between items-baseline">
+                <span class="text-sm font-bold text-indigo-300">Modal de Pago Integrado</span>
+                <span class="text-xl font-extrabold text-white">$29</span>
+              </div>
+              <ul class="text-[11px] text-zinc-300 space-y-1.5">
+                <li>✓ Conectado a Stripe vía ExtensionPay</li>
+                <li>✓ Sin servidores backend propios que mantener</li>
+                <li>✓ Soporta pagos únicos o suscripciones mensuales</li>
+              </ul>
+              <button onclick="toggleDemoPro(); showDemoTab('inspector');" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white cursor-pointer">
+                Simular Compra Exitosa
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Time Saved Comparison -->
+  <section id="comparison" class="max-w-5xl mx-auto px-6 py-16 border-t border-zinc-900">
+    <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+      <h2 class="text-2xl sm:text-3xl font-extrabold">¿Cuánto vale tu tiempo de ingeniería?</h2>
+      <p class="text-sm text-zinc-400">Configurar el ecosistema de Chrome desde cero toma una semana entera de prueba y error.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="p-6 rounded-3xl bg-zinc-900/40 border border-zinc-800/80 space-y-4">
+        <div class="text-xs font-bold uppercase tracking-wider text-red-400">Hacerlo desde cero</div>
+        <ul class="space-y-2.5 text-xs text-zinc-400">
+          <li class="flex justify-between"><span>Configurar Vite multi-entry + Manifest V3</span><span class="text-zinc-200 font-mono">8 hrs</span></li>
+          <li class="flex justify-between"><span>Aislar Content Script con Shadow DOM</span><span class="text-zinc-200 font-mono">6 hrs</span></li>
+          <li class="flex justify-between"><span>Integrar Stripe dentro del CSP de Chrome</span><span class="text-zinc-200 font-mono">12 hrs</span></li>
+          <li class="flex justify-between"><span>Sincronizar Side Panel + Popup + Storage</span><span class="text-zinc-200 font-mono">9 hrs</span></li>
+          <li class="flex justify-between"><span>Validación con Zod + Dark Mode + Toasts</span><span class="text-zinc-200 font-mono">6 hrs</span></li>
+        </ul>
+        <div class="pt-4 border-t border-zinc-800 flex justify-between items-baseline">
+          <span class="text-xs font-bold text-zinc-300">Total perdido:</span>
+          <span class="text-lg font-extrabold text-red-400">41+ Horas de tedio</span>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-3xl bg-indigo-950/20 border-2 border-indigo-500/40 space-y-4">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">Con ChromeLaunch v1.1</div>
+        <ul class="space-y-2.5 text-xs text-zinc-300">
+          <li class="flex justify-between"><span>1. Clonar y correr <code class="text-indigo-300">bun install</code></span><span class="text-emerald-400 font-mono">1 min</span></li>
+          <li class="flex justify-between"><span>2. Poner tu ID de Stripe en <code class="text-indigo-300">extpay.ts</code></span><span class="text-emerald-400 font-mono">2 min</span></li>
+          <li class="flex justify-between"><span>3. Personalizar vistas en React + Tailwind v4</span><span class="text-emerald-400 font-mono">45 min</span></li>
+          <li class="flex justify-between"><span>4. Compilar con <code class="text-indigo-300">bun run build</code></span><span class="text-emerald-400 font-mono">1 seg</span></li>
+          <li class="flex justify-between"><span>5. Subir el <code class="text-indigo-300">dist/</code> a la Chrome Web Store</span><span class="text-emerald-400 font-mono">10 min</span></li>
+        </ul>
+        <div class="pt-4 border-t border-indigo-500/20 flex justify-between items-baseline">
+          <span class="text-xs font-bold text-zinc-200">Tiempo hasta producción:</span>
+          <span class="text-lg font-extrabold text-emerald-400">&lt; 1 Hora</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Grid Features -->
+  <section id="features" class="max-w-6xl mx-auto px-6 py-16 border-t border-zinc-900">
+    <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+      <h2 class="text-2xl sm:text-3xl font-extrabold">Arquitectura de Nivel Silicon Valley</h2>
+      <p class="text-sm text-zinc-400">Auditado línea por línea con 0 errores de TypeScript y 98/100 en Production Readiness.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="p-6 rounded-3xl bg-zinc-900/60 border border-zinc-800 space-y-2">
+        <div class="text-indigo-400 font-bold text-sm">01. Tres Superficies Listas</div>
+        <p class="text-xs text-zinc-400 leading-relaxed">Incluye Popup (380px), el nuevo Chrome Side Panel (Chrome 114+) y un Options Dashboard completo para claves de API y respaldos.</p>
+      </div>
+      <div class="p-6 rounded-3xl bg-zinc-900/60 border border-zinc-800 space-y-2">
+        <div class="text-indigo-400 font-bold text-sm">02. Pagos Stripe + Simulador Dev</div>
+        <p class="text-xs text-zinc-400 leading-relaxed">Pre-cableado con ExtensionPay. Prueba todo el flujo FREE vs PRO localmente con 1 clic sin siquiera abrir cuenta en Stripe todavía.</p>
+      </div>
+      <div class="p-6 rounded-3xl bg-zinc-900/60 border border-zinc-800 space-y-2">
+        <div class="text-indigo-400 font-bold text-sm">03. Shadow DOM Aislado</div>
+        <p class="text-xs text-zinc-400 leading-relaxed">El Content Script inyecta un botón flotante y notificaciones Toast dentro de un Shadow Root cerrado para jamás romper el CSS de ninguna web.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="max-w-5xl mx-auto px-6 py-20 border-t border-zinc-900">
+    <div class="text-center max-w-xl mx-auto mb-12 space-y-3">
+      <h2 class="text-3xl font-extrabold">Invierte una vez. Lanza proyectos ilimitados.</h2>
+      <p class="text-sm text-zinc-400">El 100% de los ingresos que generen tus extensiones te pertenece.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <!-- Solo Plan -->
+      <div class="p-8 rounded-3xl bg-zinc-900/70 border border-zinc-800 flex flex-col justify-between space-y-6">
+        <div class="space-y-4">
+          <div class="text-xs font-bold uppercase tracking-wider text-zinc-400">Solo Developer License</div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-4xl font-extrabold">$49</span>
+            <span class="text-sm text-zinc-500 line-through">$99</span>
+            <span class="text-xs text-emerald-400 font-semibold">Pago único</span>
+          </div>
+          <p class="text-xs text-zinc-400">Todo lo que necesitas para lanzar tus propias extensiones rentables en la Chrome Web Store.</p>
+          <ul class="space-y-2.5 text-xs text-zinc-300 pt-2">
+            <li>✓ Código fuente completo de ChromeLaunch v1.1</li>
+            <li>✓ Manifest V3 + React 19 + Tailwind CSS v4</li>
+            <li>✓ Popup + Side Panel + Options + Content Script</li>
+            <li>✓ Motor de pagos Stripe / ExtensionPay integrado</li>
+            <li>✓ Validación con Zod + Sonner Toasts + Dark Mode</li>
+            <li>✓ Licencia comercial para proyectos propios ilimitados</li>
+          </ul>
+        </div>
+        <a id="btnSoloCheckout" href="#pricing" onclick="handleCheckout('solo')" class="w-full py-3.5 rounded-2xl text-center text-xs font-bold bg-zinc-100 hover:bg-white text-zinc-950 transition-all block">
+          Descargar Solo License ($49)
+        </a>
+      </div>
+
+      <!-- Agency / Unlimited Plan -->
+      <div class="p-8 rounded-3xl bg-gradient-to-b from-indigo-950/50 to-zinc-900 border-2 border-indigo-500 flex flex-col justify-between space-y-6 relative">
+        <span class="absolute -top-3 right-6 px-3 py-1 rounded-full bg-indigo-600 text-[10px] font-extrabold uppercase tracking-wider text-white">
+          Más Popular
+        </span>
+        <div class="space-y-4">
+          <div class="text-xs font-bold uppercase tracking-wider text-indigo-400">Pro / Agency Bundle</div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-4xl font-extrabold">$89</span>
+            <span class="text-sm text-zinc-500 line-through">$179</span>
+            <span class="text-xs text-emerald-400 font-semibold">Pago único</span>
+          </div>
+          <p class="text-xs text-zinc-300">Para fundadores y agencias que quieren el paquete completo con materiales de lanzamiento y venta.</p>
+          <ul class="space-y-2.5 text-xs text-zinc-200 pt-2">
+            <li>✓ <strong>Todo lo incluido en Solo License</strong></li>
+            <li>✓ Plantilla de Landing Page de venta (este mismo sitio)</li>
+            <li>✓ Kit de Marketing y Copywriting para Product Hunt, X y Reddit</li>
+            <li>✓ Checklist de aprobación rápida en Chrome Web Store</li>
+            <li>✓ Licencia para proyectos de clientes y equipos</li>
+          </ul>
+        </div>
+        <a id="btnAgencyCheckout" href="#pricing" onclick="handleCheckout('agency')" class="w-full py-3.5 rounded-2xl text-center text-xs font-bold bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-xl shadow-indigo-600/25 transition-all block">
+          Descargar Pro Bundle ($89) →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-900 py-10 px-6 text-center text-xs text-zinc-500 space-y-2">
+    <div>© 2026 ChromeLaunch. Todos los derechos reservados.</div>
+    <div class="text-[11px] text-zinc-600">Distribuido bajo Licencia Comercial Perpetua. Pagos e impuestos globales procesados vía Merchant of Record.</div>
+  </footer>
+
+  <script>
+    let isDemoPro = false;
+
+    function toggleDemoPro() {
+      isDemoPro = !isDemoPro;
+      const badge = document.getElementById("demoBadge");
+      const btn = document.getElementById("demoPlanBtn");
+      const toast = document.getElementById("demoToast");
+      if (isDemoPro) {
+        badge.textContent = "PRO";
+        badge.className = "text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold";
+        btn.textContent = "Cambiar a FREE";
+        toast.textContent = "🎉 Modo PRO activado en el simulador";
+      } else {
+        badge.textContent = "FREE";
+        badge.className = "text-[9px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700";
+        btn.textContent = "Cambiar a PRO";
+        toast.textContent = "Modo FREE activado";
+      }
+    }
+
+    function showDemoTab(tab) {
+      ["Inspector", "Sidepanel", "Paywall"].forEach((name) => {
+        const key = name.toLowerCase();
+        const panel = document.getElementById("demoTab" + name);
+        const btn = document.getElementById("tabBtn" + name);
+        if (key === tab) {
+          panel.classList.remove("hidden");
+          btn.className = "px-3 py-1 rounded-lg bg-zinc-800 text-white font-semibold cursor-pointer";
+        } else {
+          panel.classList.add("hidden");
+          btn.className = "px-3 py-1 rounded-lg text-zinc-400 hover:text-white font-semibold cursor-pointer";
+        }
+      });
+    }
+
+    function triggerDemoExport() {
+      const toast = document.getElementById("demoToast");
+      if (!isDemoPro) {
+        showDemoTab("paywall");
+        return;
+      }
+      toast.textContent = "✅ Reporte CSV generado con éxito (Modo PRO)";
+    }
+
+    function handleCheckout(tier) {
+      const url = tier === "agency" ? window.CHECKOUT_CONFIG.agencyUrl : window.CHECKOUT_CONFIG.soloUrl;
+      if (url && url !== "#pricing") {
+        window.open(url, "_blank", "noopener,noreferrer");
+      } else {
+        alert("Conecta tu enlace de Gumroad o LemonSqueezy en window.CHECKOUT_CONFIG dentro de landing/index.html");
+      }
+    }
+  </script>
+</body>
+</html>
